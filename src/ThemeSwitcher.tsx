@@ -1,6 +1,6 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import logo from "./logo.svg";
+import "./App.css";
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap Bundle JS
@@ -13,7 +13,7 @@ const ThemeSwitcher = () => {
   const [theme, setTheme] = useState<string | undefined>();
 
   const resetTheme = () => {
-    setTheme('');
+    setTheme("");
   };
 
   return (
