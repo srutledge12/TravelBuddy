@@ -11,8 +11,6 @@ const flightAPI = ({setSetup, setDelivery}: Props)=> {
     url: 'https://v2.jokeapi.dev/joke/Programming',
     // params: {APIKEY: 'test'},
     // headers: {
-    //   'X-RapidAPI-Key': '60f60eb3b2msh00951111c52354fp1d3118jsnbea136101ae7',
-    //   'X-RapidAPI-Host': 'tsa-wait-times.p.rapidapi.com'
     // }
   };
   

@@ -10,6 +10,7 @@ import { DatabaseClusterEngine } from "aws-cdk-lib/aws-rds";
 import CardList from "./components/CardList";
 import flightAPI from "./APIs/flightAPI";
 import { Adsense } from "@ctrl/react-adsense";
+import countApi from "./APIs/countApi";
 
 
 const App: React.FC = () => {
@@ -25,6 +26,7 @@ const App: React.FC = () => {
       console.log(flightNumber)
     }
     flightAPI({setSetup, setDelivery});
+    countApi();
     
   };
   return (
@@ -40,6 +42,7 @@ const App: React.FC = () => {
       <h2>{delivery}</h2>
 
       <br></br>
+      
       <Adsense
         client="ca-pub-6402062289848548"
         slot="7259870550"
