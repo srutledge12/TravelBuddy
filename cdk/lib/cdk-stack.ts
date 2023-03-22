@@ -21,28 +21,26 @@ export class CdkStack extends cdk.Stack {
     // });
 
     
-    const myCertificate = new acm.Certificate(this, 'mySiteCert', {
-      domainName: 'www.3teve.com',
-      validation: acm.CertificateValidation.fromDns(hostedZone),
-    });
+    // const myCertificate = new acm.Certificate(this, 'mySiteCert', {
+    //   domainName: 'www.3teve.com',
+    //   validation: acm.CertificateValidation.fromDns(hostedZone),
+    // });
 
-    const cardBucket = new s3.Bucket(this, "CardBucket", 
+    const travelBuddy = new s3.Bucket(this, "TravelBuddy", 
     {
       publicReadAccess: true,
       websiteIndexDocument: "index.html"
     });
     new s3deploy.BucketDeployment(this, 'DeployCardWebsite', {
       sources: [s3deploy.Source.asset('../build')],
-      destinationBucket: cardBucket,
+      destinationBucket: travelBuddy,
       // destinationKeyPrefix: 'web/static', // optional prefix in destination bucket
     });
 
     // Creates a distribution from an S3 bucket.
    
   new cloudfront.Distribution(this, 'cardDistribution', {
-    defaultBehavior: { origin: new origins.S3Origin(cardBucket) },
-    domainNames: ['www.3teve.com'],
-    certificate: myCertificate,
+    defaultBehavior: { origin: new origins.S3Origin(travelBuddy) },
   });
 
   }

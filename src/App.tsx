@@ -8,52 +8,44 @@ import InputField from "./components/InputField";
 import { Cards } from "./model";
 import { DatabaseClusterEngine } from "aws-cdk-lib/aws-rds";
 import CardList from "./components/CardList";
-// let dez: {};
-// let deez: Object;
-// let deeex: any;
-// type another2 = {
-//   val1: string;
-//   thes: number;
-// }
-// interface another3 extends another2 {
-//   val1: string;
-//   thes: number;
-// }
-// let de: another2;
-// let printName: (deez:object)=>void;
-// let rando: unknown;
+import flightAPI from "./APIs/flightAPI";
+import { Adsense } from "@ctrl/react-adsense";
 
-// de = {val1: "5", thes: 5};
-// console.log(de);
+
 const App: React.FC = () => {
-  const [card, setCard] = useState<string>("");
-  const [cards, setCards] = useState<Cards[]>([]);
+  const [flightNumber, setFlightNumber] = useState<string>("");
+  const [setup, setSetup] = useState<string>("Still in development but click Go to enjoy a joke");
+  const [delivery, setDelivery] = useState<string>("");
+  // const [cards, setCards] = useState<Cards[]>([]);
+  
 
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
-    if (card) {
-      setCards([
-        ...cards,
-        {
-          id: new Date().toISOString(),
-          cardName: card,
-          price: 20,
-          isSold: false,
-        },
-      ]);
-      setCard("");
+    if (flightNumber) {
+      console.log(flightNumber)
     }
+    flightAPI({setSetup, setDelivery});
+    
   };
   return (
     <div className="App">
-      <span className="heading"> Logs Cards</span>
-      {/* <ThemeSwitcher /> */}
+      <span className="heading">Travel Buddy</span>
       <InputField
-        availableCards={card}
-        setAvailableCards={setCard}
+        flightNumber={flightNumber}
+        setFlightNumber={setFlightNumber}
         handleAdd={handleAdd}
       />
-      <CardList cards={cards} setCards={setCards}/>
+      <br></br>
+      <h2>{setup}</h2>
+      <h2>{delivery}</h2>
+
+      <br></br>
+      <Adsense
+        client="ca-pub-6402062289848548"
+        slot="7259870550"
+        style={{ width: 500, height: 300 }}
+        format=""
+      />
     </div>
   );
 };
