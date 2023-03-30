@@ -25,12 +25,14 @@ const InputField: React.FC<Props> = ({
         ref={inputRef}
         type="input"
         value={flightNumber}
-        onChange={(e) => {e.preventDefault();
-        setFlightNumber(e.target.value)}}
+        onChange={(e) => {
+          e.preventDefault();
+          setFlightNumber(e.target.value);
+        }}
         placeholder="Enter your flight number (DL1234)"
         className="input__box"
       />
-      
+
       <button className="input_submit">Go</button>
     </form>
   );

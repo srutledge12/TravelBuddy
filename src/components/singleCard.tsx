@@ -29,8 +29,7 @@ const SingleCard = ({ card, cards, setCards }: Props) => {
       )}
 
       <div>
-
-        <span className="icon" onClick={()=>handleSold(card.id)}>
+        <span className="icon" onClick={() => handleSold(card.id)}>
           <MdDone />
         </span>
       </div>

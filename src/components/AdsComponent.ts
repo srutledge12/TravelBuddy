@@ -1,6 +1,6 @@
-import React, { useEffect  } from 'react';
+import React, { useEffect } from "react";
 
-import { Adsense } from '@ctrl/react-adsense';
+import { Adsense } from "@ctrl/react-adsense";
 
 // const AdsComponent = () => {
 //     <Adsense
