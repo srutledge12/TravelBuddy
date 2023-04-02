@@ -19,7 +19,7 @@ const App: React.FC = () => {
     "Still in development but click Go to enjoy a joke"
   );
   const [delivery, setDelivery] = useState<string>("");
-  const [origin, setOrigin] = useState<string>("");
+  const [origin, setOrigin] = useState<string>("47.6044,-122.3345");
   const [destination, setDestination] = useState<string>("");
   const [travelMode, setTravelMode] = useState<string>("driving");
   const [travelTime, setTravelTime] = useState<number>(0);
@@ -31,6 +31,9 @@ const App: React.FC = () => {
 
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => setOrigin(position.coords.latitude + ',' + position.coords.longitude));
+    }
     if (flightNumber) {
       console.log(flightNumber);
     }
@@ -38,10 +41,11 @@ const App: React.FC = () => {
     getDistance();
     sumTimes();
   };
+  
 
   const getDistance = async () => {
     distanceApi({
-      origin: "47.6044,-122.3345",
+      origin: origin,
       destination: "45.5347,-122.6231",
       travelMode,
       setTravelTime,
