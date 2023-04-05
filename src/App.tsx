@@ -12,6 +12,8 @@ import flightAPI from "./APIs/flightAPI";
 import { Adsense } from "@ctrl/react-adsense";
 import countApi from "./APIs/countApi";
 import distanceApi from "./APIs/distanceApi";
+import { dateToCloudFormation } from "aws-cdk-lib";
+import { DateTimeAttribute } from "aws-cdk-lib/aws-cognito";
 
 const App: React.FC = () => {
   const [flightNumber, setFlightNumber] = useState<string>("");
@@ -20,17 +22,19 @@ const App: React.FC = () => {
   );
   const [delivery, setDelivery] = useState<string>("");
   const [origin, setOrigin] = useState<string>("47.6044,-122.3345");
-  const [destination, setDestination] = useState<string>("");
+  const [destination, setDestination] = useState<string>("47.4464,-122.2993");
   const [travelMode, setTravelMode] = useState<string>("driving");
-  const [travelTime, setTravelTime] = useState<number>(0);
+  const [travelTime, setTravelTime] = useState<Date>(new Date(0));
   const [airport, setAirport] = useState<string>("SEA");
-  const [tsaTime, setTsaTime] = useState<number>(17);
-  const [walkTime, setWalkTime] = useState<number>(12);
-  const [bufferTime, setBufferTime] = useState<number>(20);
-  const [totalTime, setTotalTime] = useState<number>(0);
+  const [tsaTime, setTsaTime] = useState<Date>(new Date(17.5*60000));
+  const [walkTime, setWalkTime] = useState<Date>(new Date(12.33*60000));
+  const [bufferTime, setBufferTime] = useState<Date>(new Date(20.66 * 60000));
+  const [totalTime, setTotalTime] = useState<Date>(new Date(0));
+  const [boardingTime, setBoardingTime] = useState<Date>(new Date());
 
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
+    // setBoardingTime(new Date());
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => setOrigin(position.coords.latitude + ',' + position.coords.longitude));
     }
@@ -39,20 +43,23 @@ const App: React.FC = () => {
     }
     flightAPI({ setSetup, setDelivery });
     getDistance();
-    sumTimes();
+    sumTimes();  
+    console.log(boardingTime);
   };
   
-
   const getDistance = async () => {
     distanceApi({
       origin: origin,
-      destination: "45.5347,-122.6231",
+      destination: destination,
       travelMode,
       setTravelTime,
     });
   };
+
+  
   const sumTimes = async () => {
-    await setTotalTime(travelTime + tsaTime + walkTime + bufferTime);
+    await setTotalTime(new Date(travelTime.getTime() + tsaTime.getTime() + walkTime.getTime() + bufferTime.getTime()));
+    setBoardingTime(new Date(boardingTime.getTime() - totalTime.getTime()))
   };
   return (
     <div className="App">
@@ -63,20 +70,21 @@ const App: React.FC = () => {
         handleAdd={handleAdd}
       />
       <br></br>
-      <h2>{setup}</h2>
-      <h2>{delivery}</h2>
-
+      {/* <h2>{setup}</h2>
+      <h2>{delivery}</h2> */}
+      <h2>You Should Leave At:</h2>
+      <h1>{boardingTime.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}</h1>
       <br></br>
       <h2>Travel Time if {travelMode}</h2>
-      <h2>{travelTime}</h2>
+      <h2>{travelTime.toISOString().substring(11,19)}</h2>
       <h2>TSA Time at {airport}</h2>
-      <h2>{tsaTime}</h2>
+      <h2>{tsaTime.toISOString().substring(11,19)}</h2>
       <h2>Walking Time</h2>
-      <h2>{walkTime}</h2>
-      <h2>Leasure Time</h2>
-      <h2>{bufferTime}</h2>
+      <h2>{walkTime.toISOString().substring(11,19)}</h2>
+      <h2>Leisure Time</h2>
+      <h2>{bufferTime.toISOString().substring(11,19)}</h2>
       <h2>Total Time to Gate</h2>
-      <h2>{totalTime}</h2>
+      <h2>{totalTime.toISOString().substring(11,19)}</h2>
       <Adsense
         client="ca-pub-6402062289848548"
         slot="7259870550"

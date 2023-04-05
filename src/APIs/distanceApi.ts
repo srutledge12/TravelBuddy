@@ -5,8 +5,9 @@ type Props = {
   origin: string;
   destination: string;
   travelMode: string;
-  setTravelTime: React.Dispatch<React.SetStateAction<number>>;
+  setTravelTime: React.Dispatch<React.SetStateAction<Date>>;
 };
+
 
 
   
@@ -36,7 +37,7 @@ const distanceApi = ({
         response.data.resourceSets[0].resources[0].results[0].travelDuration
       );
       setTravelTime(
-        response.data.resourceSets[0].resources[0].results[0].travelDuration
+        new Date(response.data.resourceSets[0].resources[0].results[0].travelDuration *60000)
       );
       // const joke = response.data
       // setSetup(response.data.setup);
